@@ -45,14 +45,16 @@ export class OrganizationController {
   @Post('/add-user')
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   async addUser(@Body() data: AddRemoveUserDto) {
-    const result = await this.organizationService.addUser(data);
-    return result;
+    await this.organizationService.addUser(data);
+    return {
+      message: "User added successfully to Organization"
+    };
   }
   
   @Get('/:org_id/users')
   async getUsersByOrgId(@Param('org_id') org_id: string) {
     const result = await this.organizationService.getOrgUsers(org_id);
-    return result;
+    return result; 
   }
 
   @Delete('/:org_id/users/:user_id')

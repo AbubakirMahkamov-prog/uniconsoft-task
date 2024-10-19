@@ -10,6 +10,6 @@ export class CreateProjectDto {
   org_id: string;
 
   @IsString()
-  @IsOptional() // Optional since it may not always be provided
-  created_by_id?: string;
+  @IsNotEmpty()
+  created_by_id: string;
 }

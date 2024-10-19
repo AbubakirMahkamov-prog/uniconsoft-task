@@ -45,6 +45,7 @@ export class ProjectService {
       if (error.code === PostgresErrorCode.UNIQUE_VIOLATION ) {
         throw new ConflictException(`The name "${data.name}" is already taken.`);
       }
+      console.log(error)
       if (error.code === PostgresErrorCode.FOREIGN_KEY_VIOLATION) {
         throw new ConflictException(`The created_by_id "${data.created_by_id}" is not available in users`);
       }
