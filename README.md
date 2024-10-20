@@ -6,7 +6,7 @@ Developed with the requirement of a vacancy at Uniconsoft
 ### Roles
 - **Admin**
   - Create, read, update, delete (CRUD) organizations.
-  - Manage users within an organization, including role assignment.
+  - Manage users within an organization.
   
 - **Organization Manager**
   - Manage projects and tasks.
@@ -15,7 +15,6 @@ Developed with the requirement of a vacancy at Uniconsoft
 
 - **Organization Employee**
   - View assigned tasks by project and status.
-  - Track task completion with timestamps.
 
 ### Core Functionalities
 - **CRUD Operations** for:
