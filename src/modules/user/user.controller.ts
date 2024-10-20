@@ -3,13 +3,17 @@ import { Controller, Post, Body, Get, Param, Patch, Delete, UsePipes , Validatio
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiTags } from '@nestjs/swagger'
+import { ApiTags, ApiBody } from '@nestjs/swagger'
 
-@ApiTags("Users")
+@ApiTags("/users")
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @ApiBody({
+		type: CreateUserDto,
+		description: "CreateUser",
+	})
   @Post()
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   async create(@Body() createUserDto: CreateUserDto) {
