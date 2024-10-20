@@ -65,7 +65,7 @@ $ npm run start:prod
 
 ## Run tests
 
-```bash
+bash
 # unit tests
 $ npm run test
 
