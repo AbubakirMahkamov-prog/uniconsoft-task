@@ -75,4 +75,34 @@ export class TaskService {
     }
     return this.taskRepository.delete(id);
   }
+  async markInProgress(id: string) {
+    try {
+      //should receive also worker_id from token and then check if task belongs to user;
+      return await this.taskRepository.update(id, {
+        status: 'IN_PROCESS',
+    })
+      
+    } catch (error) {
+      throw new HttpException(error.message, error.code)
+    }
+  }
+  async markDone(id: string) {
+    try {
+      //should receive also worker_id from token and then check if task belongs to user;
+      return await this.taskRepository.update(id, {
+        status: 'DONE',
+        done_at: Math.floor(new Date().getTime() / 1000),
+    })
+      
+    } catch (error) {
+      throw new HttpException(error.message, error.code)
+    }
+  }
+  async getTasksByProject(user_id: string, project_id: string) {
+    return await this.taskRepository.getTasksByProjectId(user_id, project_id);
+  }
+
+  async getTasksByStatus(user_id: string, status: 'CREATED'|'IN_PROCESS'|'DONE') {
+    return await this.taskRepository.getTasksByStatus(user_id, status)
+  }
 }

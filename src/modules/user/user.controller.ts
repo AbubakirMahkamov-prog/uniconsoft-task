@@ -35,6 +35,10 @@ export class UserController {
     return result;
   }
 
+  @ApiBody({
+		type: UpdateUserDto,
+		description: "UpdateUser",
+	})
   @Patch(':id')
   async update(@Param('id') id: string, @Body() data: UpdateUserDto) {
     

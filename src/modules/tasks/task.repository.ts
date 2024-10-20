@@ -27,4 +27,22 @@ export class TaskRepository extends BaseRepository<Task> {
       .returning("*")
       .first()
   }
+  async getTasksByProjectId(user_id: string, project_id: string) {
+    return await this.knex(this.tableName)
+      .select('*')
+      .where({
+        worker_user_id: user_id,
+        project_id
+      })
+      .returning("*")
+  }
+  async getTasksByStatus(user_id: string, status: string) {
+    return await this.knex(this.tableName)
+      .select('*')
+      .where({
+        worker_user_id: user_id,
+        status
+      })
+      .returning("*")
+  }
 }

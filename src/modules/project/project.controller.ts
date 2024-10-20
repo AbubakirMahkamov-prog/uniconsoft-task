@@ -3,13 +3,17 @@ import { Controller, Post, Body, Get, Param, Patch, Delete, UsePipes , Validatio
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
-import { ApiTags } from '@nestjs/swagger'
+import { ApiTags, ApiBody } from '@nestjs/swagger'
 
 @ApiTags("Projects")
 @Controller('projects')
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
+  @ApiBody({
+		type: CreateProjectDto,
+		description: "CreateProject",
+	})
   @Post()
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   async create(@Body() data: CreateProjectDto) {
@@ -30,6 +34,10 @@ export class ProjectController {
     return result;
   }
 
+  @ApiBody({
+		type: UpdateProjectDto,
+		description: "UpdateProject",
+	})
   @Patch(':id')
   async update(@Param('id') id: string, @Body() data: UpdateProjectDto) {
     const result = await this.projectService.updateProject(id, data);

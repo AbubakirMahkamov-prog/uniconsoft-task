@@ -4,13 +4,17 @@ import { OrganizationService } from './organization.service';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 import { UpdateOrganizationDto } from './dto/update-organization.dto';
 import { AddRemoveUserDto } from './dto/add-remove-user.dto';
-import { ApiTags } from '@nestjs/swagger'
+import { ApiTags, ApiBody } from '@nestjs/swagger'
 
 @ApiTags("Organizations")
 @Controller('organizations')
 export class OrganizationController {
   constructor(private readonly organizationService: OrganizationService) {}
-
+  
+  @ApiBody({
+		type: CreateOrganizationDto,
+		description: "CreateOrganization",
+	})
   @Post()
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   async create(@Body() data: CreateOrganizationDto) {
@@ -31,6 +35,10 @@ export class OrganizationController {
     return result;
   }
 
+  @ApiBody({
+		type: UpdateOrganizationDto,
+		description: "UpdateOrganization",
+	})
   @Patch(':id')
   async update(@Param('id') id: string, @Body() data: UpdateOrganizationDto) {
     const result = await this.organizationService.updateOrganization(id, data);
