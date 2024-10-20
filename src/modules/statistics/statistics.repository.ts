@@ -17,4 +17,13 @@ export class StatisticsRepository{
       .where(`org.id`, org_id)
       .groupBy(`org.id`)
   } 
+  async getProjectAnalys(project_id: string) {
+    return await this.knex(`projects as pr`)
+      .select('pr.*', 'org.name as organization_name')
+      .count('tk.id as task_count')
+      .leftJoin(`tasks as tk`, `pr.id`, `tk.project_id`)
+      .leftJoin(`organizations as org`, `pr.org_id`, `org.id`)
+      .where('pr.id', project_id)
+      .groupBy(`pr.id`, 'org.name')
+  }
 }

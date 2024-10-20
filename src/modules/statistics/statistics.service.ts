@@ -6,4 +6,7 @@ export class StatisticsService {
   async getOrgAnalys(org_id: string) {
     return await this.statisticsRepository.getOrgAnalys(org_id)
   }
+  async getProjectAnalys(project_id: string) {
+    return await this.statisticsRepository.getProjectAnalys(project_id)
+  }
 }

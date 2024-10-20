@@ -12,4 +12,8 @@ export class StatisticsController {
   async getOrgAnalys(@Param('org_id') org_id: string) {
     return await this.statisticsService.getOrgAnalys(org_id);
   }
+  @Get('/by-project/:project_id')
+  async getProjectAnalys(@Param('project_id') project_id: string) {
+    return await this.statisticsService.getProjectAnalys(project_id);
+  }
 }
