@@ -9,7 +9,10 @@ export class StatisticsRepository{
   }
   async getOrgAnalys(org_id: string) {
     return await this.knex(`organizations as org`)
-      .select(`org.*`)
+      .select(
+        `org.id as org_id`,
+        `org.name as organization_name`
+      )
       .count('pr.id as project_count')
       .count('tk.id as task_count')
       .leftJoin(`projects as pr`, `org.id`, `pr.org_id`)
@@ -19,11 +22,27 @@ export class StatisticsRepository{
   } 
   async getProjectAnalys(project_id: string) {
     return await this.knex(`projects as pr`)
-      .select('pr.*', 'org.name as organization_name')
+      .select(
+        'pr.id as project_id',
+        'pr.name as project_name',
+        'org.name as organization_name'
+      )
       .count('tk.id as task_count')
       .leftJoin(`tasks as tk`, `pr.id`, `tk.project_id`)
       .leftJoin(`organizations as org`, `pr.org_id`, `org.id`)
       .where('pr.id', project_id)
       .groupBy(`pr.id`, 'org.name')
+  }
+  async getOverallAnalays() {
+    return await this.knex(`organizations as org`)
+      .select(
+        `org.id as org_id`,
+        `org.name as organization_name`
+      )
+      .count('pr.id as project_count')
+      .count('tk.id as task_count')
+      .leftJoin(`projects as pr`, `org.id`, `pr.org_id`)
+      .leftJoin(`tasks as tk`, `pr.id`, `tk.project_id`)
+      .groupBy(`org.id`)
   }
 }

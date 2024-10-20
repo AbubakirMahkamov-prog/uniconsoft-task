@@ -9,4 +9,7 @@ export class StatisticsService {
   async getProjectAnalys(project_id: string) {
     return await this.statisticsRepository.getProjectAnalys(project_id)
   }
+  async getOverallAnalays() {
+    return await this.statisticsRepository.getOverallAnalays()
+  }
 }

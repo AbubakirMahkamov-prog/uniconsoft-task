@@ -16,4 +16,9 @@ export class StatisticsController {
   async getProjectAnalys(@Param('project_id') project_id: string) {
     return await this.statisticsService.getProjectAnalys(project_id);
   }
+
+  @Get('/overall')
+  async getOverallAnalays() {
+    return await this.statisticsService.getOverallAnalays();
+  }
 }
