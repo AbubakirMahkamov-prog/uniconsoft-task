@@ -4,8 +4,9 @@ import { OrganizationService } from './organization.service';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 import { UpdateOrganizationDto } from './dto/update-organization.dto';
 import { AddRemoveUserDto } from './dto/add-remove-user.dto';
-import { Organization } from './organization.entity';
+import { ApiTags } from '@nestjs/swagger'
 
+@ApiTags("Organizations")
 @Controller('organizations')
 export class OrganizationController {
   constructor(private readonly organizationService: OrganizationService) {}

@@ -3,8 +3,9 @@ import { Controller, Post, Body, Get, Param, Patch, Delete, UsePipes , Validatio
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
-import { Project } from './project.entity';
+import { ApiTags } from '@nestjs/swagger'
 
+@ApiTags("Projects")
 @Controller('projects')
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
