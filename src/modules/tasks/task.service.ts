@@ -1,16 +1,16 @@
 import { Injectable, ConflictException, HttpException} from '@nestjs/common';
-import { ProjectRepository } from './project.repository';
-import { CreateProjectDto  } from './dto/create-project.dto';
-import { Project } from './project.entity';
+import { TaskRepository } from './task.repository';
+import { CreateTaskDto  } from './dto/create-task.dto';
+import { Task } from './task.entity';
 import { PostgresErrorCode } from '../../shared/database/postgres.error.code'
 
 @Injectable()
-export class ProjectService {
-  constructor(private readonly projectRepository: ProjectRepository) {}
+export class TaskService {
+  constructor(private readonly taskRepository: TaskRepository) {}
   
-  async createProject(data: CreateProjectDto): Promise<Project> {
+  async createTask(data: CreateTaskDto): Promise<Task> {
     try {
-      return await this.projectRepository.create(data);
+      return await this.taskRepository.create(data);
     } catch (error) {
       if (error.code === PostgresErrorCode.UNIQUE_VIOLATION ) {
         throw new ConflictException(`The name "${data.name}" is already taken.`);
@@ -22,25 +22,25 @@ export class ProjectService {
     }
   }
 
-  async getAllProjects(): Promise<Project[]> {
-    return this.projectRepository.findAll();
+  async getAllTasks(): Promise<Task[]> {
+    return this.taskRepository.findAll();
   }
 
-  async getProjectById(id: string): Promise<Project | undefined> {
-    const model = await this.projectRepository.findById(id);
+  async getTaskById(id: string): Promise<Task | undefined> {
+    const model = await this.taskRepository.findById(id);
     if (!model) {
-      throw new HttpException(`Project not found`, 404);
+      throw new HttpException(`Task not found`, 404);
     }
     return model;
   }
 
-  async updateProject(id: string, data: Partial<Project>): Promise<Project> {
+  async updateTask(id: string, data: Partial<Task>): Promise<Task> {
     try {
-      const old = await this.projectRepository.findById(id);
+      const old = await this.taskRepository.findById(id);
       if (!old) {
-        throw new HttpException(`Project not found`, 404);
+        throw new HttpException(`Task not found`, 404);
       }
-      return await this.projectRepository.update(id, data);
+      return await this.taskRepository.update(id, data);
     } catch (error) {
       if (error.code === PostgresErrorCode.UNIQUE_VIOLATION ) {
         throw new ConflictException(`The name "${data.name}" is already taken.`);
@@ -52,11 +52,11 @@ export class ProjectService {
     }
   }
 
-  async deleteProject(id: string): Promise<number> {
-    const old = await this.projectRepository.findById(id);
+  async deleteTask(id: string): Promise<number> {
+    const old = await this.taskRepository.findById(id);
     if (!old) {
-      throw new HttpException(`Project not found`, 404);
+      throw new HttpException(`Task not found`, 404);
     }
-    return this.projectRepository.delete(id);
+    return this.taskRepository.delete(id);
   }
 }
