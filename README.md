@@ -60,17 +60,7 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
-```
 
-### Swagger Authentication
-The Swagger UI is protected with basic authentication. Use the following credentials to access the API documentation:
-
-- **Username**: `unicon`
-- **Password**: `123`
-
-Access Swagger UI at:
-```bash
-http://localhost:3000/docs
 
 
 ## Run tests
@@ -84,6 +74,17 @@ $ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
+```
+
+### Swagger Authentication
+The Swagger UI is protected with basic authentication. Use the following credentials to access the API documentation:
+
+- **Username**: `unicon`
+- **Password**: `123`
+
+Access Swagger UI at:
+```bash
+http://localhost:3000/docs
 ```
 
 ## Resources
