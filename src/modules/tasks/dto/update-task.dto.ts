@@ -17,18 +17,6 @@ export class UpdateTaskDto {
   @IsNotEmpty()
   worker_user_id: string;
 
-  @IsEnum(['CREATED', 'IN_PROCESS', 'DONE'])
-  @IsNotEmpty()
-  status: 'CREATED' | 'IN_PROCESS' | 'DONE';
-
-  @IsString()
-  @IsNotEmpty()
-  created_by_id: string;
-
-  @IsNumber()
-  @IsNotEmpty()
-  created_at: number;
-
   @IsNumber()
   @IsNotEmpty()
   due_date: number;

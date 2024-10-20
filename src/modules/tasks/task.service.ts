@@ -6,19 +6,27 @@ import { PostgresErrorCode } from '../../shared/database/postgres.error.code'
 
 @Injectable()
 export class TaskService {
-  constructor(private readonly taskRepository: TaskRepository) {}
+  constructor(private readonly taskRepository: TaskRepository ) {}
   
   async createTask(data: CreateTaskDto): Promise<Task> {
     try {
+      const project = await this.taskRepository.getProjectById(data.project_id)
+      if (!project) {
+        throw new ConflictException(`The project doesn't exists.`);
+      }
+      const user = await this.taskRepository.checkUserToOrg(project.org_id, data.worker_user_id);
+      if(!user) {
+        throw new ConflictException(`The Worker user cannot work this project because user doesn't belongs to project's organization.`);
+      }
       return await this.taskRepository.create(data);
     } catch (error) {
       if (error.code === PostgresErrorCode.UNIQUE_VIOLATION ) {
         throw new ConflictException(`The name "${data.name}" is already taken.`);
       }
       if (error.code === PostgresErrorCode.FOREIGN_KEY_VIOLATION) {
-        throw new ConflictException(`The created_by_id "${data.created_by_id}" is not available in users`);
+        throw new ConflictException(`The created_by_id or worker_user_id or project_id "${data.created_by_id}" is not available`);
       }
-      throw new HttpException(error.message, 500);
+      throw new HttpException(error.message, error.status ?? error.code);
     }
   }
 
@@ -40,13 +48,21 @@ export class TaskService {
       if (!old) {
         throw new HttpException(`Task not found`, 404);
       }
+      const project = await this.taskRepository.getProjectById(data.project_id)
+      if (!project) {
+        throw new ConflictException(`The project doesn't exists.`);
+      }
+      const user = await this.taskRepository.checkUserToOrg(project.org_id, data.worker_user_id);
+      if(!user) {
+        throw new ConflictException(`The Worker user cannot work this project because user doesn't belongs to project's organization.`);
+      }
       return await this.taskRepository.update(id, data);
     } catch (error) {
       if (error.code === PostgresErrorCode.UNIQUE_VIOLATION ) {
         throw new ConflictException(`The name "${data.name}" is already taken.`);
       }
       if (error.code === PostgresErrorCode.FOREIGN_KEY_VIOLATION) {
-        throw new ConflictException(`The created_by_id "${data.created_by_id}" is not available in users`);
+        throw new ConflictException(`The created_by_id or worker_user_id or project_id "${data.created_by_id}" is not available`);
       }
       throw new HttpException(error.message, error.status ?? error.code);
     }
