@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { UserModule } from './modules/user/user.module';
 import { SharedModule } from './shared/shared.module';
 import { OrganizationModule } from './modules/organization/organization.module';
@@ -16,8 +14,8 @@ import { StatisticsModule } from './modules/statistics/statistics.module';
     ProjectModule, 
     TaskModule, 
     StatisticsModule],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 
 export class AppModule {}
