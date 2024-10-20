@@ -10,19 +10,16 @@ export class OrganizationRepository extends BaseRepository<Organization> {
     super(knexService.getKnexInstance(), 'organizations');
   }
   async getCheckExists(data: AddRemoveUserDto) {
-    const knex = this.knexService.getKnexInstance();
-    return await knex(this.orguserTable).select('*').where({
+    return await this.knex(this.orguserTable).select('*').where({
       org_id: data.org_id,
       user_id: data.user_id,
     }).first();
   }
   async addUser(data: AddRemoveUserDto) {
-    const knex = this.knexService.getKnexInstance();
-    return await knex(this.orguserTable).insert(data).returning('*');
+    return await this.knex(this.orguserTable).insert(data).returning('*');
   }
   async delUserOrg(data: AddRemoveUserDto) {
-    const knex = this.knexService.getKnexInstance();
-    return await knex(this.orguserTable).where(data).del();  
+    return await this.knex(this.orguserTable).where(data).del();  
   }
   async getOrgUsers(id: string) {
     const knex = this.knexService.getKnexInstance();
