@@ -10,7 +10,7 @@ export class UserService {
   async createUser(data: CreateUserDto): Promise<User> {
     try {
       return await this.userRepository.create(data);
-    } catch (error) {
+    } catch (error: any) {
       if (error.code === PostgresErrorCode.UNIQUE_VIOLATION ) {
         throw new ConflictException(`The name "${data.name}" is already taken.`);
       }
@@ -34,7 +34,7 @@ export class UserService {
       }
       return await this.userRepository.update(id, data);
   
-    } catch (error) {
+    } catch (error: any) {
       
       if (error.code === PostgresErrorCode.UNIQUE_VIOLATION ) {
         throw new ConflictException(`The name "${data.name}" is already taken.`);

@@ -11,7 +11,7 @@ export class ProjectService {
   async createProject(data: CreateProjectDto): Promise<Project> {
     try {
       return await this.projectRepository.create(data);
-    } catch (error) {
+    } catch (error: any) {
       if (error.code === PostgresErrorCode.UNIQUE_VIOLATION ) {
         throw new ConflictException(`The name "${data.name}" is already taken.`);
       }
@@ -41,7 +41,7 @@ export class ProjectService {
         throw new HttpException(`Project not found`, 404);
       }
       return await this.projectRepository.update(id, data);
-    } catch (error) {
+    } catch (error: any) {
       if (error.code === PostgresErrorCode.UNIQUE_VIOLATION ) {
         throw new ConflictException(`The name "${data.name}" is already taken.`);
       }

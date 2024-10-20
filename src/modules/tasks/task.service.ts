@@ -19,7 +19,7 @@ export class TaskService {
         throw new ConflictException(`The Worker user cannot work this project because user doesn't belongs to project's organization.`);
       }
       return await this.taskRepository.create(data);
-    } catch (error) {
+    } catch (error: any) {
       if (error.code === PostgresErrorCode.UNIQUE_VIOLATION ) {
         throw new ConflictException(`The name "${data.name}" is already taken.`);
       }
@@ -57,7 +57,7 @@ export class TaskService {
         throw new ConflictException(`The Worker user cannot work this project because user doesn't belongs to project's organization.`);
       }
       return await this.taskRepository.update(id, data);
-    } catch (error) {
+    } catch (error: any) {
       if (error.code === PostgresErrorCode.UNIQUE_VIOLATION ) {
         throw new ConflictException(`The name "${data.name}" is already taken.`);
       }
@@ -82,7 +82,7 @@ export class TaskService {
         status: 'IN_PROCESS',
     })
       
-    } catch (error) {
+    } catch (error: any) {
       throw new HttpException(error.message, error.code)
     }
   }
@@ -94,7 +94,7 @@ export class TaskService {
         done_at: Math.floor(new Date().getTime() / 1000),
     })
       
-    } catch (error) {
+    } catch (error: any) {
       throw new HttpException(error.message, error.code)
     }
   }

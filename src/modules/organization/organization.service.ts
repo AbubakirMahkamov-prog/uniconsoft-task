@@ -12,7 +12,7 @@ export class OrganizationService {
   async createOrganization(data: CreateOrganizationDto): Promise<Organization> {
     try {
       return await this.organizationRepository.create(data);
-    } catch (error) {
+    } catch (error: any) {
       if (error.code === PostgresErrorCode.UNIQUE_VIOLATION ) {
         throw new ConflictException(`The name "${data.name}" is already taken.`);
       }
@@ -42,7 +42,7 @@ export class OrganizationService {
         throw new HttpException(`Organization not found`, 404);
       }
       return await this.organizationRepository.update(id, data);
-    } catch (error) {
+    } catch (error: any) {
       if (error.code === PostgresErrorCode.UNIQUE_VIOLATION ) {
         throw new ConflictException(`The name "${data.name}" is already taken.`);
       }
@@ -66,7 +66,7 @@ export class OrganizationService {
   async addUser(data: AddRemoveUserDto) {
     try {
       return await this.organizationRepository.addUser(data);
-    } catch (error) {
+    } catch (error: any) {
       if (error.code === PostgresErrorCode.FOREIGN_KEY_VIOLATION) {
         throw new ConflictException(`The user_id or org_id is not available`);
       }
@@ -82,7 +82,7 @@ export class OrganizationService {
   async delUserOrg(data: AddRemoveUserDto) {
     try {
       await this.organizationRepository.delUserOrg(data)
-    } catch (error) {
+    } catch (error: any) {
       throw new HttpException(error.message, 500);
     }
   }
